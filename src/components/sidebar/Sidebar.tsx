@@ -1,7 +1,7 @@
 import React from 'react';
 import { useScreenshot } from '@/context/ScreenshotContext';
 import { LayoutType } from '@/types';
-import { Layout, Palette, Sliders, Image as ImageIcon } from 'lucide-react';
+import { Layout, Palette, Sliders, Image as ImageIcon, Download } from 'lucide-react';
 import { backgrounds, topDefaults } from '@/data/backgrounds';
 
 const layouts: LayoutType[] = ['Hero', 'Grid', 'Fan', 'Floating', 'Stack', 'Perspective', 'Layered'];
@@ -36,12 +36,42 @@ export function Sidebar() {
                 />
               ))}
             </div>
-            <button 
-              onClick={clearAll}
-              className="text-xs text-destructive hover:text-destructive/80 transition-colors w-full text-left"
-            >
-              Clear All
-            </button>
+            <div className="flex justify-between items-center w-full">
+              <button 
+                onClick={clearAll}
+                className="text-xs text-destructive hover:text-destructive/80 transition-colors text-left"
+              >
+                Clear All
+              </button>
+              <button 
+                onClick={async () => {
+                  const JSZip = (await import('jszip')).default;
+                  const zip = new JSZip();
+                  
+                  await Promise.all(screenshots.map(async (shot, i) => {
+                    const url = (settings.autoCrop && shot.croppedUrl) ? shot.croppedUrl : shot.previewUrl;
+                    try {
+                      const res = await fetch(url);
+                      const blob = await res.blob();
+                      zip.file(`processed-screenshot-${i + 1}.png`, blob);
+                    } catch (err) {
+                      console.error('Failed to fetch image for zip', err);
+                    }
+                  }));
+
+                  const content = await zip.generateAsync({ type: 'blob' });
+                  const link = document.createElement('a');
+                  link.href = URL.createObjectURL(content);
+                  link.download = 'screenshot-studio-export.zip';
+                  link.click();
+                  URL.revokeObjectURL(link.href);
+                }}
+                className="text-xs text-primary hover:text-primary/80 transition-colors text-right flex items-center gap-1"
+              >
+                <Download className="w-3 h-3" />
+                Download All (ZIP)
+              </button>
+            </div>
           </div>
         ) : (
           <div className="p-4 rounded-xl border border-border/50 bg-background/50 text-xs text-muted-foreground text-center">
@@ -182,6 +212,19 @@ export function Sidebar() {
             onChange={(e) => updateSettings({ noise: parseInt(e.target.value) })}
             className="w-full accent-primary"
           />
+        </div>
+
+        <div className="flex items-center justify-between pt-2">
+          <span className="text-xs font-medium text-foreground">Auto Crop UI</span>
+          <label className="relative inline-flex items-center cursor-pointer">
+            <input 
+              type="checkbox" 
+              className="sr-only peer" 
+              checked={settings.autoCrop}
+              onChange={(e) => updateSettings({ autoCrop: e.target.checked })}
+            />
+            <div className="w-9 h-5 bg-secondary peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-primary"></div>
+          </label>
         </div>
 
       </div>
