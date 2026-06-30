@@ -80,6 +80,7 @@ export const backgrounds: BackgroundCategory[] = [
   {
     category: "Minimal",
     options: [
+      { name: "Transparent", gradient: "transparent" },
       { name: "Pure White", gradient: "#ffffff" },
       { name: "Warm White", gradient: "#faf8f5" },
       { name: "Cool Gray", gradient: "#f5f7fa" },
@@ -100,6 +101,7 @@ export const backgrounds: BackgroundCategory[] = [
 ];
 
 export const topDefaults: BackgroundOption[] = [
+  { name: "Transparent", gradient: "transparent" },
   { name: "Peach Dream", gradient: "linear-gradient(135deg, #FFE29F 0%, #FFA99F 100%)" },
   { name: "Aurora", gradient: "linear-gradient(135deg,#b8f2e6,#aed9ff,#d8b4fe)" },
   { name: "Framer Purple", gradient: "linear-gradient(135deg,#D9AFD9,#97D9E1)" },
