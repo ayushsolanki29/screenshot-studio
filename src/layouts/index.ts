@@ -3,6 +3,9 @@ import { calculateHeroLayout } from './hero';
 import { calculateGridLayout } from './grid';
 import { calculateFanLayout } from './fan';
 import { calculateFloatingLayout } from './floating';
+import { calculateStackLayout } from './stack';
+import { calculatePerspectiveLayout } from './perspective';
+import { calculateLayeredLayout } from './layered';
 
 export type LayoutFunction = (
   screenshots: Screenshot[],
@@ -14,13 +17,14 @@ const layouts: Record<LayoutType, LayoutFunction> = {
   Grid: calculateGridLayout,
   Fan: calculateFanLayout,
   Floating: calculateFloatingLayout,
-  // Add placeholders for the rest
+  Stack: calculateStackLayout,
   Timeline: calculateHeroLayout,
   Carousel: calculateHeroLayout,
-  Stack: calculateHeroLayout,
   Masonry: calculateHeroLayout,
   Comparison: calculateHeroLayout,
   Story: calculateHeroLayout,
+  Perspective: calculatePerspectiveLayout,
+  Layered: calculateLayeredLayout,
 };
 
 export function calculateLayout(
@@ -29,6 +33,16 @@ export function calculateLayout(
 ): ScreenshotPosition[] {
   if (screenshots.length === 0) return [];
   
+  // Normalize screenshots for the layout engine based on autoCrop setting
+  const normalizedShots = screenshots.map(shot => {
+    const useCrop = settings.autoCrop && shot.croppedUrl && shot.croppedWidth && shot.croppedHeight;
+    return {
+      ...shot,
+      width: useCrop ? shot.croppedWidth! : shot.originalWidth,
+      height: useCrop ? shot.croppedHeight! : shot.originalHeight,
+    } as Screenshot & { width: number, height: number };
+  });
+
   const layoutFn = layouts[settings.layout] || layouts.Hero;
-  return layoutFn(screenshots, settings);
+  return layoutFn(normalizedShots, settings);
 }

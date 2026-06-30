@@ -3,7 +3,7 @@ import { useScreenshot } from '@/context/ScreenshotContext';
 import { LayoutType, BackgroundType } from '@/types';
 import { Layout, Palette, Sliders, Image as ImageIcon } from 'lucide-react';
 
-const layouts: LayoutType[] = ['Hero', 'Grid', 'Fan', 'Floating'];
+const layouts: LayoutType[] = ['Hero', 'Grid', 'Fan', 'Floating', 'Stack', 'Perspective', 'Layered'];
 const backgrounds: { type: BackgroundType, value: string, label: string }[] = [
   { type: 'Gradient', value: 'linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%)', label: 'Light' },
   { type: 'Gradient', value: 'linear-gradient(135deg, #434343 0%, #000000 100%)', label: 'Dark' },
