@@ -1,7 +1,21 @@
 {
   "name": "screenshot-studio",
-  "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
+  "description": "A modern, beautiful screenshot composition tool for developers and designers.",
+  "author": "Ayush Solanki",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ayushsolanki29/screenshot-studio.git"
+  },
+  "keywords": [
+    "screenshot",
+    "mockup",
+    "studio",
+    "react",
+    "vite",
+    "tailwindcss"
+  ],
   "type": "module",
   "scripts": {
     "dev": "vite",
