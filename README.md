@@ -10,7 +10,7 @@
   [![Vite](https://img.shields.io/badge/Vite-8-purple.svg)](https://vitejs.dev)
   [![TailwindCSS](https://img.shields.io/badge/Tailwind-v4-38B2AC.svg)](https://tailwindcss.com)
 
-  [Live Demo](https://screenshot-studio.vercel.app/) • [Report Bug](https://github.com/ayushsolanki29/screenshot-studio/issues)
+  [Live Demo](https://screenshot-studio-steel.vercel.app/) • [Report Bug & Request Feature](https://github.com/ayushsolanki29/screenshot-studio/issues)
 </div>
 
 ---
@@ -24,19 +24,28 @@ You can recreate stunning layouts directly in the studio:
 | <img src="public/samp1.png" alt="Layered Annotations" width="300" /> | <img src="public/samp2.png" alt="Perspective Fan" width="300" /> | <img src="public/samp3.png" alt="Stacked Cards" width="300" /> |
 | Create beautiful floating annotations and pointer callouts. | Effortlessly fan out multiple mobile app screens in a 3D perspective. | Overlap and stack multiple browser windows or UI components. |
 
-## ✨ Features
+## 📖 How To Use (User Guide)
 
-Screenshot Studio turns raw screenshots into premium, commercial-grade presentations in seconds. Inspired by the aesthetics of Linear, Vercel, and Raycast.
+Using Screenshot Studio is incredibly simple:
 
-- **🪄 Intelligent Auto-Crop**: Automatically detects and removes browser chrome, Windows taskbars, and macOS docks.
-- **🗺️ Infinite Canvas**: Pan and zoom freely using gesture controls (`@use-gesture/react`) for a professional editing experience.
-- **🎨 50+ Pluggable Layouts**: Includes Hero, Stack, Perspective, Grid, Fan, Layered, and floating layouts.
-- **✨ Advanced Effects**: Dial in the perfect look with custom shadow strength, blur, distance, glassmorphism, noise, and rounded corners.
-- **🌈 Premium Backgrounds**: Curated library of minimalist gradients, mesh patterns, and solid colors.
-- **🚀 High-Res Export**: Render directly from the DOM to high-quality 2x/4x PNGs instantly.
-- **📋 Copy to Clipboard**: Seamless integration with your OS clipboard.
+1. **Upload Images**: Drag and drop your screenshots directly onto the infinite canvas, or click to upload.
+2. **Choose a Layout**: Use the sidebar to select from 10+ dynamic layouts (Stack, Perspective, Grid, Fan, etc.).
+3. **Customize Appearance**: Dial in the spacing, gap, border radius, and add a premium film-grain noise effect.
+4. **Select a Background**: Pick from 50+ curated premium backgrounds (Soft Light, Premium Mesh, Dark Minimal).
+5. **Pan & Zoom**: Hold `Ctrl` (or `Cmd`) and scroll to zoom in/out, or click and drag the canvas to pan around your composition.
+6. **Export**: (Coming Soon) One-click export to high-res PNG or copy straight to clipboard!
 
-## 🚀 Quick Start
+## ✨ Features & Roadmap
+
+- [x] **🗺️ Infinite Canvas**: Pan and zoom freely using gesture controls for a professional editing experience.
+- [x] **🎨 50+ Premium Backgrounds**: Curated library of minimalist gradients, mesh patterns, and solid colors.
+- [x] **🪄 Intelligent Layout Engine**: Includes Hero, Stack, Perspective, Grid, Fan, Layered, and floating layouts.
+- [x] **✨ Advanced Effects**: Dial in the perfect look with custom noise, rounded corners, and spacing.
+- [ ] **🪄 Auto-Crop (In Progress)**: Automatically detects and removes browser chrome and taskbars.
+- [ ] **📝 Text & Shape Annotations (Coming Soon)**: Add beautiful pointer callouts and text.
+- [ ] **🚀 High-Res Export (Coming Soon)**: Render directly to high-quality 2x/4x PNGs instantly.
+
+## 🚀 Quick Start (Local Setup)
 
 Ensure you have Node.js 20+ installed.
 
@@ -61,15 +70,6 @@ Open `http://localhost:5173` to see the app. You can test the layouts using the 
 - **State**: React Context API
 - **Animations**: Framer Motion
 - **Canvas/Export**: `html2canvas`, `@use-gesture/react`
-
-## 📦 Deployment (Vercel)
-
-This project is fully configured for deployment on Vercel. 
-
-1. Push your code to GitHub.
-2. Import the project into Vercel.
-3. The framework preset (Vite) and routing (`vercel.json`) will be detected automatically.
-4. Deploy!
 
 ## 📄 License
 

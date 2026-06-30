@@ -10,11 +10,26 @@
   },
   "keywords": [
     "screenshot",
+    "screenshot-tool",
+    "screenshot-editor",
     "mockup",
-    "studio",
+    "mockup-generator",
+    "design-tool",
+    "presentation",
+    "hero-image",
+    "social-media",
+    "twitter-post",
+    "dribbble",
+    "portfolio",
+    "app-showcase",
+    "browser-frame",
+    "macos-frame",
+    "image-wrapper",
     "react",
     "vite",
-    "tailwindcss"
+    "tailwindcss",
+    "framer-motion",
+    "open-source"
   ],
   "type": "module",
   "scripts": {
