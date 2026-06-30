@@ -168,6 +168,8 @@ export function Sidebar() {
             onChange={(e) => updateSettings({ gap: parseInt(e.target.value) })}
             className="w-full accent-primary"
           />
+        </div>
+
         <div className="space-y-2">
           <div className="flex justify-between text-xs text-muted-foreground">
             <span>Noise</span>
