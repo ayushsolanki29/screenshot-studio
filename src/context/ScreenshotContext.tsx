@@ -15,7 +15,7 @@ interface ScreenshotContextType {
   canUndo: boolean;
   canRedo: boolean;
   resetSettings: () => void;
-}
+} 
 
 const defaultSettings: AppSettings = {
   padding: 80,
