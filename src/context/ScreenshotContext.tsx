@@ -10,6 +10,11 @@ interface ScreenshotContextType {
   reorderScreenshots: (startIndex: number, endIndex: number) => void;
   updateSettings: (newSettings: Partial<AppSettings>) => void;
   clearAll: () => void;
+  undo: () => void;
+  redo: () => void;
+  canUndo: boolean;
+  canRedo: boolean;
+  resetSettings: () => void;
 }
 
 const defaultSettings: AppSettings = {
@@ -42,6 +47,9 @@ const ScreenshotContext = createContext<ScreenshotContextType | undefined>(undef
 export function ScreenshotProvider({ children }: { children: ReactNode }) {
   const [screenshots, setScreenshots] = useState<Screenshot[]>([]);
   const [settings, setSettings] = useState<AppSettings>(defaultSettings);
+
+  const [past, setPast] = useState<AppSettings[]>([]);
+  const [future, setFuture] = useState<AppSettings[]>([]);
 
   const addScreenshots = useCallback(async (files: File[]) => {
     const newShots = await Promise.all(
@@ -88,12 +96,42 @@ export function ScreenshotProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const updateSettings = useCallback((newSettings: Partial<AppSettings>) => {
-    setSettings((prev) => ({ ...prev, ...newSettings }));
+    setSettings((prev) => {
+      setPast(p => [...p, prev]);
+      setFuture([]);
+      return { ...prev, ...newSettings };
+    });
+  }, []);
+
+  const undo = useCallback(() => {
+    if (past.length === 0) return;
+    const previous = past[past.length - 1];
+    setPast(p => p.slice(0, p.length - 1));
+    setFuture(f => [settings, ...f]);
+    setSettings(previous);
+  }, [past, settings]);
+
+  const redo = useCallback(() => {
+    if (future.length === 0) return;
+    const next = future[0];
+    setFuture(f => f.slice(1));
+    setPast(p => [...p, settings]);
+    setSettings(next);
+  }, [future, settings]);
+
+  const resetSettings = useCallback(() => {
+    setSettings(prev => {
+      setPast(p => [...p, prev]);
+      setFuture([]);
+      return defaultSettings;
+    });
   }, []);
 
   const clearAll = useCallback(() => {
     screenshots.forEach(s => URL.revokeObjectURL(s.previewUrl));
     setScreenshots([]);
+    setPast([]);
+    setFuture([]);
   }, [screenshots]);
 
   return (
@@ -105,7 +143,12 @@ export function ScreenshotProvider({ children }: { children: ReactNode }) {
         removeScreenshot, 
         reorderScreenshots, 
         updateSettings, 
-        clearAll 
+        clearAll,
+        undo,
+        redo,
+        canUndo: past.length > 0,
+        canRedo: future.length > 0,
+        resetSettings
       }}
     >
       {children}

@@ -34,6 +34,59 @@ export function Canvas() {
     }
   }, [settings.canvasWidth, settings.canvasHeight]);
 
+  useEffect(() => {
+    const handleRecenter = () => {
+      if (containerRef.current) {
+        const { clientWidth, clientHeight } = containerRef.current;
+        setTransform(prev => ({
+          ...prev,
+          x: (clientWidth - settings.canvasWidth * prev.scale) / 2,
+          y: (clientHeight - settings.canvasHeight * prev.scale) / 2,
+        }));
+      }
+    };
+
+    const handleFit = () => {
+      if (containerRef.current) {
+        const { clientWidth, clientHeight } = containerRef.current;
+        const pad = 40;
+        const scaleX = (clientWidth - pad * 2) / settings.canvasWidth;
+        const scaleY = (clientHeight - pad * 2) / settings.canvasHeight;
+        const newScale = Math.min(scaleX, scaleY, 1);
+        setTransform({
+          scale: newScale,
+          x: (clientWidth - settings.canvasWidth * newScale) / 2,
+          y: (clientHeight - settings.canvasHeight * newScale) / 2,
+        });
+      }
+    };
+
+    const handleZoomIn = () => {
+      setTransform(prev => {
+        const newScale = Math.min(prev.scale + 0.1, 3);
+        if (containerRef.current) {
+          const { clientWidth, clientHeight } = containerRef.current;
+          return {
+            scale: newScale,
+            x: (clientWidth - settings.canvasWidth * newScale) / 2,
+            y: (clientHeight - settings.canvasHeight * newScale) / 2,
+          };
+        }
+        return { ...prev, scale: newScale };
+      });
+    };
+
+    window.addEventListener('canvas:recenter', handleRecenter);
+    window.addEventListener('canvas:fit', handleFit);
+    window.addEventListener('canvas:zoom-in', handleZoomIn);
+
+    return () => {
+      window.removeEventListener('canvas:recenter', handleRecenter);
+      window.removeEventListener('canvas:fit', handleFit);
+      window.removeEventListener('canvas:zoom-in', handleZoomIn);
+    };
+  }, [settings.canvasWidth, settings.canvasHeight]);
+
   useGesture(
     {
       onDrag: ({ offset: [dx, dy], pinching, cancel }) => {

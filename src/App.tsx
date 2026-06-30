@@ -1,5 +1,5 @@
 import React from 'react';
-import { Settings, Image as ImageIcon, Layout, Palette, Sliders, Download, Undo2, Redo2, RotateCcw, ZoomIn, Maximize } from 'lucide-react';
+import { Settings, Image as ImageIcon, Layout, Palette, Sliders, Download, Undo2, Redo2, RotateCcw, ZoomIn, Maximize, Target } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useScreenshot } from '@/context/ScreenshotContext';
 import { Dropzone } from '@/components/dropzone/Dropzone';
@@ -8,7 +8,7 @@ import { Sidebar } from '@/components/sidebar/Sidebar';
 import { exportImage } from '@/lib/export';
 
 export default function App() {
-  const { screenshots } = useScreenshot();
+  const { screenshots, undo, redo, canUndo, canRedo, resetSettings } = useScreenshot();
   
   return (
     <div className="flex h-screen w-full bg-background overflow-hidden text-foreground selection:bg-primary/30">
@@ -41,14 +41,15 @@ export default function App() {
         {/* Toolbar */}
         <header className="h-14 border-b border-border/40 bg-background/80 backdrop-blur-md flex items-center justify-between px-6 z-10 absolute top-0 left-0 right-0">
           <div className="flex items-center gap-2">
-            <ToolButton icon={<Undo2 className="w-4 h-4" />} tooltip="Undo" />
-            <ToolButton icon={<Redo2 className="w-4 h-4" />} tooltip="Redo" />
+            <ToolButton icon={<Undo2 className="w-4 h-4" />} tooltip="Undo" onClick={undo} disabled={!canUndo} />
+            <ToolButton icon={<Redo2 className="w-4 h-4" />} tooltip="Redo" onClick={redo} disabled={!canRedo} />
             <div className="w-px h-4 bg-border/50 mx-1" />
-            <ToolButton icon={<RotateCcw className="w-4 h-4" />} tooltip="Reset" />
+            <ToolButton icon={<RotateCcw className="w-4 h-4" />} tooltip="Reset Settings" onClick={resetSettings} />
           </div>
           <div className="flex items-center gap-2">
-            <ToolButton icon={<ZoomIn className="w-4 h-4" />} tooltip="Zoom" />
-            <ToolButton icon={<Maximize className="w-4 h-4" />} tooltip="Fit to Screen" />
+            <ToolButton icon={<Target className="w-4 h-4" />} tooltip="Recenter" onClick={() => window.dispatchEvent(new CustomEvent('canvas:recenter'))} />
+            <ToolButton icon={<ZoomIn className="w-4 h-4" />} tooltip="Zoom In" onClick={() => window.dispatchEvent(new CustomEvent('canvas:zoom-in'))} />
+            <ToolButton icon={<Maximize className="w-4 h-4" />} tooltip="Fit to Screen" onClick={() => window.dispatchEvent(new CustomEvent('canvas:fit'))} />
           </div>
         </header>
 
@@ -76,10 +77,12 @@ function Section({ icon, title }: { icon: React.ReactNode, title: string }) {
   );
 }
 
-function ToolButton({ icon, tooltip }: { icon: React.ReactNode, tooltip: string }) {
+function ToolButton({ icon, tooltip, onClick, disabled }: { icon: React.ReactNode, tooltip: string, onClick?: () => void, disabled?: boolean }) {
   return (
     <button 
-      className="p-2 rounded-md hover:bg-secondary text-muted-foreground hover:text-foreground transition-colors"
+      onClick={onClick}
+      disabled={disabled}
+      className={`p-2 rounded-md transition-colors ${disabled ? 'opacity-50 cursor-not-allowed' : 'hover:bg-secondary text-muted-foreground hover:text-foreground'}`}
       title={tooltip}
     >
       {icon}
