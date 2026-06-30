@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 250" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1A1A2E" />
+      <stop offset="100%" stop-color="#16213E" />
+    </linearGradient>
+    <linearGradient id="icon-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFDEE9" />
+      <stop offset="100%" stop-color="#B5FFFC" />
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="250" rx="24" fill="url(#bg-grad)" />
+
+  <!-- Geometric Elements (Abstract Screens) -->
+  <g transform="translate(140, 125)">
+    <!-- Back Card -->
+    <rect x="-80" y="-60" width="100" height="120" rx="12" fill="url(#icon-grad)" opacity="0.3" transform="rotate(-15) translate(-10, -10)" />
+    <!-- Middle Card -->
+    <rect x="-60" y="-60" width="100" height="120" rx="12" fill="url(#icon-grad)" opacity="0.6" transform="rotate(-5) translate(-5, -5)" />
+    <!-- Front Card -->
+    <rect x="-40" y="-60" width="100" height="120" rx="12" fill="url(#icon-grad)" filter="url(#glow)" />
+    <!-- Inner lines representing UI -->
+    <rect x="-25" y="-45" width="70" height="10" rx="4" fill="#1A1A2E" opacity="0.8" />
+    <rect x="-25" y="-25" width="40" height="8" rx="4" fill="#1A1A2E" opacity="0.6" />
+    <rect x="-25" y="-5" width="50" height="8" rx="4" fill="#1A1A2E" opacity="0.6" />
+    <circle cx="-15" cy="30" r="12" fill="#1A1A2E" opacity="0.8" />
+  </g>
+
+  <!-- Typography -->
+  <text x="280" y="145" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-weight="800" font-size="56" fill="#FFFFFF" letter-spacing="-1.5">
+    Screenshot Studio
+  </text>
+  <text x="285" y="185" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-weight="500" font-size="20" fill="#9CA3AF" letter-spacing="0.5">
+    Compose • Mockup • Present
+  </text>
+</svg>

@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="public/social-preview.png" alt="Screenshot Studio Banner" width="100%" />
+  <img src="public/logo.svg" alt="Screenshot Studio Banner" width="100%" />
   
   # 📸 Screenshot Studio
   
@@ -14,6 +14,15 @@
 </div>
 
 ---
+
+## 🎨 Layout Showcase
+
+You can recreate stunning layouts directly in the studio:
+
+| Layered Annotations | Perspective Fan | Stacked Cards |
+| :---: | :---: | :---: |
+| <img src="public/samp1.png" alt="Layered Annotations" width="300" /> | <img src="public/samp2.png" alt="Perspective Fan" width="300" /> | <img src="public/samp3.png" alt="Stacked Cards" width="300" /> |
+| Create beautiful floating annotations and pointer callouts. | Effortlessly fan out multiple mobile app screens in a 3D perspective. | Overlap and stack multiple browser windows or UI components. |
 
 ## ✨ Features
 
