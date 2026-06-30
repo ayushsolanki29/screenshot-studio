@@ -1,17 +1,10 @@
 import React from 'react';
 import { useScreenshot } from '@/context/ScreenshotContext';
-import { LayoutType, BackgroundType } from '@/types';
+import { LayoutType } from '@/types';
 import { Layout, Palette, Sliders, Image as ImageIcon } from 'lucide-react';
+import { backgrounds, topDefaults } from '@/data/backgrounds';
 
 const layouts: LayoutType[] = ['Hero', 'Grid', 'Fan', 'Floating', 'Stack', 'Perspective', 'Layered'];
-const backgrounds: { type: BackgroundType, value: string, label: string }[] = [
-  { type: 'Gradient', value: 'linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%)', label: 'Light' },
-  { type: 'Gradient', value: 'linear-gradient(135deg, #434343 0%, #000000 100%)', label: 'Dark' },
-  { type: 'Gradient', value: 'linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%)', label: 'Blue' },
-  { type: 'Gradient', value: 'linear-gradient(120deg, #fccb90 0%, #d57eeb 100%)', label: 'Sunset' },
-  { type: 'Solid', value: '#ffffff', label: 'White' },
-  { type: 'Solid', value: '#1a1a1a', label: 'Black' },
-];
 
 export function Sidebar() {
   const { settings, updateSettings, screenshots, clearAll } = useScreenshot();
@@ -81,22 +74,49 @@ export function Sidebar() {
       </div>
 
       {/* Backgrounds */}
-      <div className="space-y-3">
+      <div className="space-y-4">
         <div className="flex items-center gap-2 text-sm font-medium text-foreground">
           <Palette className="w-4 h-4" />
           Background
         </div>
-        <div className="grid grid-cols-3 gap-2">
-          {backgrounds.map((bg, i) => (
-            <button
-              key={i}
-              onClick={() => updateSettings({ backgroundType: bg.type, backgroundValue: bg.value })}
-              className={`h-10 rounded-lg border-2 transition-transform hover:scale-105 ${
-                settings.backgroundValue === bg.value ? 'border-primary' : 'border-transparent'
-              }`}
-              style={{ background: bg.value }}
-              title={bg.label}
-            />
+
+        {/* Top Picks */}
+        <div className="space-y-2">
+          <span className="text-xs text-muted-foreground font-medium">Top Picks</span>
+          <div className="grid grid-cols-5 gap-2">
+            {topDefaults.map((bg, i) => (
+              <button
+                key={i}
+                onClick={() => updateSettings({ backgroundValue: bg.gradient, backgroundType: bg.gradient.includes('gradient') ? 'Gradient' : 'Solid' })}
+                className={`h-8 rounded-lg border-2 transition-transform hover:scale-105 ${
+                  settings.backgroundValue === bg.gradient ? 'border-primary' : 'border-transparent'
+                }`}
+                style={{ background: bg.gradient }}
+                title={bg.name}
+              />
+            ))}
+          </div>
+        </div>
+
+        {/* All Categories */}
+        <div className="space-y-4 pt-2 border-t border-border/40">
+          {backgrounds.map((cat, i) => (
+            <div key={i} className="space-y-2">
+              <span className="text-xs text-muted-foreground font-medium">{cat.category}</span>
+              <div className="grid grid-cols-5 gap-2">
+                {cat.options.map((bg, j) => (
+                  <button
+                    key={j}
+                    onClick={() => updateSettings({ backgroundValue: bg.gradient, backgroundType: bg.gradient.includes('gradient') ? 'Gradient' : 'Solid' })}
+                    className={`h-8 rounded-lg border-2 transition-transform hover:scale-105 ${
+                      settings.backgroundValue === bg.gradient ? 'border-primary shadow-sm' : 'border-border/20 shadow-sm'
+                    }`}
+                    style={{ background: bg.gradient }}
+                    title={bg.name}
+                  />
+                ))}
+              </div>
+            </div>
           ))}
         </div>
       </div>
@@ -148,7 +168,20 @@ export function Sidebar() {
             onChange={(e) => updateSettings({ gap: parseInt(e.target.value) })}
             className="w-full accent-primary"
           />
+        <div className="space-y-2">
+          <div className="flex justify-between text-xs text-muted-foreground">
+            <span>Noise</span>
+            <span>{settings.noise}%</span>
+          </div>
+          <input 
+            type="range" 
+            min="0" max="100" 
+            value={settings.noise}
+            onChange={(e) => updateSettings({ noise: parseInt(e.target.value) })}
+            className="w-full accent-primary"
+          />
         </div>
+
       </div>
     </div>
   );
